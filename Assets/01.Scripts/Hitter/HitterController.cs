@@ -10,7 +10,8 @@ public class HitterController : MonoBehaviour
     private BoxCollider bat;
     [SerializeField]
     private PitcherController pitcher;
-    
+    [field : SerializeField]
+    public HitterInfoData HitterInfo { get; private set; }
 
     /* Parameters Hash */
     private readonly int swingHash = Animator.StringToHash("Swing");
@@ -35,27 +36,7 @@ public class HitterController : MonoBehaviour
 
     public void HittingBallEvent()
     {
-        Rigidbody ballRigidbody = pitcher.currentBall.GetComponent<Rigidbody>();
-        Vector3 hitDirection = Quaternion.Euler(0f, 0f, 0f) * transform.forward;
-        ballRigidbody.useGravity = true;
-        ballRigidbody.AddForce(hitDirection * 4500f);
-        ballRigidbody.AddForce(Vector3.up * 20f, ForceMode.Impulse);
-
-        StartCoroutine(StopBall(ballRigidbody));
-    }
-
-    IEnumerator StopBall(Rigidbody ballRigidbody)
-    {
-        yield return new WaitForSeconds(1f);
-
-        // 일정 시간 후에 속도를 감소시켜 공을 멈추도록 합니다.
-        if (ballRigidbody.gameObject != null)
-        {
-            ballRigidbody.velocity *= 0.5f;
-
-            if (ballRigidbody.velocity.magnitude > 0)
-                StartCoroutine(StopBall(ballRigidbody));
-        }
+        pitcher.currentBall.GetComponent<BallController>().Movement();
     }
 
     public void ToggleBatCollider()

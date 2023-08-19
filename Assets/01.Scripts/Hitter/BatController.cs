@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BatController : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+/*    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ball"))
         {
@@ -10,5 +10,5 @@ public class BatController : MonoBehaviour
             FindObjectOfType<PitcherController>().KillBallSequence();
             FindObjectOfType<HitterController>().HittingBallEvent();
         }
-    }
+    }*/
 }

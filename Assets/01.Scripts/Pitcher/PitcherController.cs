@@ -55,6 +55,7 @@ public class PitcherController : MonoBehaviour
     public void ThrowBallEvent()
     {
         currentBall.transform.parent = ballParent;
+        currentBall.transform.rotation = Quaternion.identity;
 
         ballSequence = DOTween.Sequence();
         ballSequence.Append(currentBall.transform.DOMove(ballPos.position, pitcherInfo.ballArrivalT));
