@@ -13,12 +13,17 @@ public class HitterController : MonoBehaviour
     [field : SerializeField]
     public HitterInfoData HitterInfo { get; private set; }
 
+    public float HDistance { get; private set; }
+
     /* Parameters Hash */
     private readonly int swingHash = Animator.StringToHash("Swing");
     private void Awake()
     {
         hitterAnimator = this.GetComponent<Animator>();
         bat.enabled = false;
+
+        // 각 HitValue 지점 사이의 수평적인 거리를 계산
+        HDistance = HitterInfo.maxHitValue - HitterInfo.minHitValue;
     }
 
     private void Update()

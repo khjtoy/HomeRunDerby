@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4756c9795830c4f88bab5ec03e9c7f, type: 3}
   m_Name: HitterInfo
   m_EditorClassIdentifier: 
-  hitStandardValue: 61.5
+  hitStandardValue: 61.7
+  minHitValue: 60.7
+  maxHitValue: 62.4
   hittingRotY: 60
+  minSwingForce: 1500
+  maxStandardSwingForce: 3500
+  addswingForce: 3200
+  minheight: 3
+  maxStandardHeight: 15
+  addHeight: 10

@@ -292,19 +292,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6627809691394206244, guid: f003ceda37d20294c81954800d38e61a, type: 3}
   m_PrefabInstance: {fileID: 1061739336}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &480211737
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480211735}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15560748, y: 0.76994044, z: 0.18993434}
-  m_Center: {x: 0.010527918, y: 0.52549744, z: -0.0018232904}
 --- !u!114 &480211740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +304,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0c0f961a2cebf48b8aca0a3b5c4953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &480211744
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480211735}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08643817, y: 0.85349935, z: 0.0991428}
+  m_Center: {x: 0.0055329236, y: 0.46876502, z: -0.000000109891346}
 --- !u!1001 &533980717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -750,7 +750,7 @@ PrefabInstance:
     - target: {fileID: 7253454020134037352, guid: f003ceda37d20294c81954800d38e61a, type: 3}
       propertyPath: bat
       value: 
-      objectReference: {fileID: 480211737}
+      objectReference: {fileID: 480211744}
     - target: {fileID: 7253454020134037352, guid: f003ceda37d20294c81954800d38e61a, type: 3}
       propertyPath: ball
       value: 
@@ -1108,7 +1108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985776836}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1323798, y: 1.67, z: 62}
+  m_LocalPosition: {x: 0.1323798, y: 1.67, z: 63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1333,6 +1333,10 @@ PrefabInstance:
     - target: {fileID: 1088697046874639222, guid: a49945d8dc2b8c24da1e97deb38d647c, type: 3}
       propertyPath: m_TagString
       value: Environment
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248982888476957516, guid: a49945d8dc2b8c24da1e97deb38d647c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1248982888476957516, guid: a49945d8dc2b8c24da1e97deb38d647c, type: 3}
       propertyPath: m_TagString

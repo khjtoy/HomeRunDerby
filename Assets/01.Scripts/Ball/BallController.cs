@@ -32,6 +32,7 @@ public class BallController : MonoBehaviour
         {
             oneCheck = true;
             collisionPointZ = transform.position.z;
+
             FindObjectOfType<PitcherController>().KillBallSequence();
             FindObjectOfType<HitterController>().HittingBallEvent();
         }
@@ -41,8 +42,8 @@ public class BallController : MonoBehaviour
     {
         Vector3 hitDirection = Quaternion.Euler(0f, DirectionY(), 0f) * hitter.transform.forward;
         ballRigidbody.useGravity = true;
-        ballRigidbody.AddForce(hitDirection * 3000f);
-        ballRigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        ballRigidbody.AddForce(hitDirection * CalculateSwingForce());
+        ballRigidbody.AddForce(Vector3.up * CalculateHeightForce(), ForceMode.Impulse);
 
         StartCoroutine(StopBall(ballRigidbody));
     }
@@ -63,6 +64,43 @@ public class BallController : MonoBehaviour
             rotY = Random.Range(-hitter.HitterInfo.hittingRotY, 0f);
         }
         return rotY;
+    }
+
+    private float CalculatePercent()
+    {
+        // 얼마나 떨어져 있는지 계산
+        float targetHDistance = collisionPointZ - hitter.HitterInfo.minHitValue;
+
+        // 백분율 계산
+        float percent = (targetHDistance / hitter.HDistance);
+
+        return percent;
+    }
+
+    private float CalculateSwingForce()
+    {
+        float percent = CalculatePercent();
+        float addSwingForce = (hitter.HitterInfo.addswingForce - (hitter.HitterInfo.addswingForce * percent));
+
+        float swingForce = Random.Range(
+            hitter.HitterInfo.minSwingForce + addSwingForce,
+            hitter.HitterInfo.maxStandardSwingForce + addSwingForce);
+
+        Debug.Log($"CheckDistance:{percent}, Point:{collisionPointZ}, SwingForce:{swingForce}");
+
+        return swingForce;
+    }
+
+    private float CalculateHeightForce()
+    {
+        float percent = CalculatePercent();
+        float addHeight = (hitter.HitterInfo.addHeight - (hitter.HitterInfo.addHeight * percent));
+
+        float heightForce = Random.Range(
+            hitter.HitterInfo.minheight + addHeight,
+            hitter.HitterInfo.maxStandardHeight + addHeight);
+
+        return heightForce;
     }
 
     IEnumerator StopBall(Rigidbody ballRigidbody)

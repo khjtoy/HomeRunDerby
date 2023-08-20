@@ -22,7 +22,6 @@ public class PitcherController : MonoBehaviour
 
     private Sequence ballSequence;
 
-
     /* Test */
     public Transform ballPos;
     public Transform ballParent;
@@ -42,8 +41,8 @@ public class PitcherController : MonoBehaviour
 
     private void ThrowBall()
     {
-        foreach (Transform child in ballParent)
-            Destroy(child.gameObject);
+/*        foreach (Transform child in ballParent)
+            Destroy(child.gameObject);*/
 
         // To Do Ball PoolManager·Î º¯È¯
         currentBall = Instantiate(ballPrefab, ballSpawnPos.position, Quaternion.identity);
