@@ -4,6 +4,11 @@ using UnityEngine;
 
 public static class Define
 {
+    public enum PooledObject
+    {
+        Ball
+    }
+
     private static HitterController hitter = null;
     private static PitcherController pitcher = null;
 

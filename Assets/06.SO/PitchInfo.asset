@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: PitchInfo
   m_EditorClassIdentifier: 
   ballArrivalT: 0.7
+  minPosX: 0
+  maxPosX: 0.55

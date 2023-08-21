@@ -21,11 +21,7 @@ public class PitcherController : MonoBehaviour
     public GameObject currentBall { get; private set; }
 
     private Sequence ballSequence;
-
-    /* Test */
-    public Transform ballPos;
     public Transform ballParent;
-    public GameObject ballPrefab;
 
     private void Awake()
     {
@@ -35,33 +31,74 @@ public class PitcherController : MonoBehaviour
 
     private void Start()
     {
-        //ThrowBall();
-        InvokeRepeating("ThrowBall", 2, 4);
+        EventManager.StartListening("RePitching", RePitching);
+
+        Invoke("ThrowBall", 2);
+        //InvokeRepeating("ThrowBall", 2, 4);
     }
 
     private void ThrowBall()
     {
-/*        foreach (Transform child in ballParent)
-            Destroy(child.gameObject);*/
-
-        // To Do Ball PoolManager·Î º¯È¯
-        currentBall = Instantiate(ballPrefab, ballSpawnPos.position, Quaternion.identity);
+        currentBall = PoolManager.Instance.GetPooledObject((int)Define.PooledObject.Ball);
+        currentBall.transform.position = ballSpawnPos.position;
+        currentBall.transform.rotation = Quaternion.identity;
         currentBall.transform.parent = ballSpawnParent;
+
+        currentBall.SetActive(true);
 
         pitcherAnimator.SetBool(pitchingHash, true);
     }
 
     public void ThrowBallEvent()
     {
-        currentBall.transform.parent = ballParent;
+        currentBall.transform.parent = PoolManager.Instance.transform;
         currentBall.transform.rotation = Quaternion.identity;
 
+        Vector3 ballPos = new Vector3(
+            Random.Range(pitcherInfo.minPosX, pitcherInfo.maxPosX),
+            1.67f, 63f);
+
         ballSequence = DOTween.Sequence();
-        ballSequence.Append(currentBall.transform.DOMove(ballPos.position, pitcherInfo.ballArrivalT));
+        ballSequence.Append(currentBall.transform.DOMove(ballPos, pitcherInfo.ballArrivalT).OnComplete(() => 
+        {
+            ResultManager.Instance.AddOutCount();
+            StartCoroutine("HideBall");
+            EventManager.TriggerEvent("RePitching", new EventParam());
+        }));
+    }
+
+    private IEnumerator HideBall()
+    {
+        yield return new WaitForSeconds(pitcherInfo.hideBall);
+        PoolManager.Instance.Despawn(currentBall);
     }
 
     public void KillBallSequence()
     {
         ballSequence.Kill();
+    }
+
+    private void RePitching(EventParam eventParam)
+    {
+        StartCoroutine("WaitPitching");
+    }
+
+    private IEnumerator WaitPitching()
+    {
+        CameraManager.Instance.SwitchBallCam(false);
+
+        yield return new WaitForSeconds(4f);
+
+        ThrowBall();
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("RePitching", RePitching);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("RePitching", RePitching);
     }
 }

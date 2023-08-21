@@ -6,6 +6,7 @@ public class BallController : MonoBehaviour
 {
     public LayerMask layer;
     private bool oneCheck = false;
+    private bool environmentCheck = false;
 
     private Rigidbody ballRigidbody;
 
@@ -23,6 +24,29 @@ public class BallController : MonoBehaviour
         if (!oneCheck) CheckBat();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (environmentCheck) return;
+        if (collision.gameObject.CompareTag("HomeRunZone"))
+        {
+            ResultManager.Instance.AddHRCount();
+            Invoke("ResultBall", 1.5f);
+            environmentCheck = true;
+        }
+        else if(collision.gameObject.CompareTag("Environment"))
+        {
+            ResultManager.Instance.AddOutCount();
+            Invoke("ResultBall", 1.5f);
+
+            environmentCheck = true;
+        }
+    }
+
+    private void ResultBall()
+    {
+        EventManager.TriggerEvent("RePitching", new EventParam());
+    }
+
     private void CheckBat()
     {
         Debug.DrawRay(transform.position, transform.forward * 0.8f, Color.red);
@@ -33,12 +57,13 @@ public class BallController : MonoBehaviour
             oneCheck = true;
             collisionPointZ = transform.position.z;
 
-            FindObjectOfType<PitcherController>().KillBallSequence();
-            FindObjectOfType<HitterController>().HittingBallEvent();
+            Define.Pitcher.KillBallSequence();
+            CameraManager.Instance.FollowBall(this.transform);
+            Movement();
         }
     }
 
-    public void Movement()
+    private void Movement()
     {
         Vector3 hitDirection = Quaternion.Euler(0f, DirectionY(), 0f) * hitter.transform.forward;
         ballRigidbody.useGravity = true;
@@ -115,5 +140,10 @@ public class BallController : MonoBehaviour
             if (ballRigidbody.velocity.magnitude > 0)
                 StartCoroutine(StopBall(ballRigidbody));
         }
+    }
+
+    private void HomeRunEvent()
+    {
+        EventManager.TriggerEvent("RePitching", new EventParam());
     }
 }

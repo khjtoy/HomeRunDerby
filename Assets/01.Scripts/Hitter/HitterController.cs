@@ -39,11 +39,6 @@ public class HitterController : MonoBehaviour
         hitterAnimator.SetTrigger(swingHash);
     }
 
-    public void HittingBallEvent()
-    {
-        pitcher.currentBall.GetComponent<BallController>().Movement();
-    }
-
     public void ToggleBatCollider()
     {
         bat.enabled = !bat.enabled;
