@@ -45,6 +45,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
 
     protected virtual void Awake()
     {
+        Debug.Log("HelloW");
         create_instance(this);
     }
 

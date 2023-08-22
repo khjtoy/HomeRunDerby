@@ -39,6 +39,8 @@ public class PitcherController : MonoBehaviour
 
     private void ThrowBall()
     {
+        UIManager.Instance.ActiveStrikeZone(false);
+
         currentBall = PoolManager.Instance.GetPooledObject((int)Define.PooledObject.Ball);
         currentBall.transform.position = ballSpawnPos.position;
         currentBall.transform.rotation = Quaternion.identity;
@@ -61,9 +63,14 @@ public class PitcherController : MonoBehaviour
         ballSequence = DOTween.Sequence();
         ballSequence.Append(currentBall.transform.DOMove(ballPos, pitcherInfo.ballArrivalT).OnComplete(() => 
         {
-            ResultManager.Instance.AddOutCount();
-            StartCoroutine("HideBall");
-            EventManager.TriggerEvent("RePitching", new EventParam());
+            float cnt = UIManager.Instance.AddOutCount();
+            if (cnt < 10)
+            {
+                StartCoroutine("HideBall");
+                EventManager.TriggerEvent("RePitching", new EventParam());
+            }
+            else
+                UIManager.Instance.Result();
         }));
     }
 
@@ -80,12 +87,17 @@ public class PitcherController : MonoBehaviour
 
     private void RePitching(EventParam eventParam)
     {
+        AudioManager.Instance.Stop("CrowdHit");
+        AudioManager.Instance.Play("CrowdNormal");
+
         StartCoroutine("WaitPitching");
     }
 
     private IEnumerator WaitPitching()
     {
         CameraManager.Instance.SwitchBallCam(false);
+
+        UIManager.Instance.ActiveStrikeZone(true);
 
         yield return new WaitForSeconds(4f);
 

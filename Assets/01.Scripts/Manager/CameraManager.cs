@@ -11,7 +11,7 @@ public class CameraManager : MonoSingleton<CameraManager>
     private CinemachineVirtualCamera trackBallCam;
 
     protected override void Init()
-    {
+    { 
         // DontDestroyOnLoad Cancel
     }
 

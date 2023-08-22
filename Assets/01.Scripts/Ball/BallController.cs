@@ -29,16 +29,22 @@ public class BallController : MonoBehaviour
         if (environmentCheck) return;
         if (collision.gameObject.CompareTag("HomeRunZone"))
         {
-            ResultManager.Instance.AddHRCount();
-            Invoke("ResultBall", 1.5f);
             environmentCheck = true;
+            UIManager.Instance.AddHRCount();
+            AudioManager.Instance.Stop("CrowdNormal");
+            AudioManager.Instance.Play("CrowdHit");
+            Invoke("ResultBall", 1.5f);
         }
         else if(collision.gameObject.CompareTag("Environment"))
         {
-            ResultManager.Instance.AddOutCount();
-            Invoke("ResultBall", 1.5f);
-
             environmentCheck = true;
+            float cnt = UIManager.Instance.AddOutCount();
+            if (cnt < 10)
+            {
+                Invoke("ResultBall", 1.5f);
+            }
+            else
+                UIManager.Instance.Result();
         }
     }
 
@@ -58,6 +64,10 @@ public class BallController : MonoBehaviour
             collisionPointZ = transform.position.z;
 
             Define.Pitcher.KillBallSequence();
+
+            AudioManager.Instance.Play("Hit");
+
+
             CameraManager.Instance.FollowBall(this.transform);
             Movement();
         }
