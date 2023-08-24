@@ -45,8 +45,17 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
 
     protected virtual void Awake()
     {
-        Debug.Log("HelloW");
         create_instance(this);
+
+        T[] instances = FindObjectsOfType<T>();
+
+        if(instances.Length >= 2)
+        {
+            for(int i = 0; i < instances.Length - 1; i++)
+            {
+                Destroy(instances[i].gameObject);
+            }
+        }
     }
 
     protected virtual void Init()

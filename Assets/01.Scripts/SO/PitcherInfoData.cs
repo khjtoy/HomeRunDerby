@@ -11,4 +11,7 @@ public class PitcherInfoData : ScriptableObject
     public float maxPosX = 0.55f;
     [Header("공 기타 설정")]
     public float hideBall = 2f;
+    [Header("공 낙하지점 위치예측 변수")]
+    public float timeStep = 0.001f;
+    public float maxSimulationTime = 0.034f;
 }

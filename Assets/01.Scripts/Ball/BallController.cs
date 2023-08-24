@@ -13,6 +13,16 @@ public class BallController : MonoBehaviour
     private HitterController hitter;
     private float collisionPointZ;
 
+    private float timeStep;
+    private float maxSimulationTime;
+    private EventParam ballInfoParam;
+
+    private void Awake()
+    {
+        timeStep = Define.Pitcher.PitcherInfo.timeStep;
+        maxSimulationTime = Define.Pitcher.PitcherInfo.maxSimulationTime;
+    }
+
     private void Start()
     {
         ballRigidbody = this.GetComponent<Rigidbody>();
@@ -27,6 +37,11 @@ public class BallController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (environmentCheck) return;
+        CheckHomerunOrOut(collision);
+    }
+
+    private void CheckHomerunOrOut(Collision collision)
+    {
         if (collision.gameObject.CompareTag("HomeRunZone"))
         {
             environmentCheck = true;
@@ -35,7 +50,7 @@ public class BallController : MonoBehaviour
             AudioManager.Instance.Play("CrowdHit");
             Invoke("ResultBall", 1.5f);
         }
-        else if(collision.gameObject.CompareTag("Environment"))
+        else if (collision.gameObject.CompareTag("Environment"))
         {
             environmentCheck = true;
             float cnt = UIManager.Instance.AddOutCount();
@@ -50,7 +65,7 @@ public class BallController : MonoBehaviour
 
     private void ResultBall()
     {
-        EventManager.TriggerEvent("RePitching", new EventParam());
+        //EventManager.TriggerEvent("RePitching", new EventParam());
     }
 
     private void CheckBat()
@@ -75,12 +90,42 @@ public class BallController : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 hitDirection = Quaternion.Euler(0f, DirectionY(), 0f) * hitter.transform.forward;
+        /*        float swingForce = CalculateSwingForce();
+                float heightForce = CalculateHeightForce();
+                Vector3 hitDirection = Quaternion.Euler(0f, DirectionY(), 0f) * hitter.transform.forward;
+                ballRigidbody.useGravity = true;
+                ballRigidbody.AddForce(hitDirection * swingForce);
+                ballRigidbody.AddForce(Vector3.up * heightForce, ForceMode.Impulse);*/
+
+        // Test
+        float swingForce = 3000f;
+        float heightForce = 5f;
+        Vector3 hitDirection = Quaternion.Euler(0f, 0f, 0f) * hitter.transform.forward;
         ballRigidbody.useGravity = true;
-        ballRigidbody.AddForce(hitDirection * CalculateSwingForce());
-        ballRigidbody.AddForce(Vector3.up * CalculateHeightForce(), ForceMode.Impulse);
+        ballRigidbody.AddForce(hitDirection * swingForce);
+        ballRigidbody.AddForce(Vector3.up * heightForce, ForceMode.Impulse);
 
         StartCoroutine(StopBall(ballRigidbody));
+
+        // 예측된 최종 위치를 계산하여 출력
+        Vector3 initialPosition = ballRigidbody.position;
+        Vector3 initialVelocity = hitDirection * swingForce + Vector3.up * heightForce;
+        ballInfoParam.vectorParam = PredictBallPosition(initialPosition, initialVelocity);
+
+        Debug.Log(ballInfoParam.vectorParam);
+
+        EventManager.TriggerEvent("StartDefence", ballInfoParam);
+    }
+    private Vector3 PredictBallPosition(Vector3 initialPosition, Vector3 initialVelocity)
+    {
+        Vector3 position = initialPosition;
+        Vector3 velocity = initialVelocity;
+
+        for (float t = 0; t < maxSimulationTime; t += timeStep)
+        {
+            position += velocity * timeStep;
+        }
+        return position;
     }
 
     private float DirectionY()

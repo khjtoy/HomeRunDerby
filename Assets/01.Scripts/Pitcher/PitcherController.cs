@@ -5,8 +5,8 @@ using DG.Tweening;
 
 public class PitcherController : MonoBehaviour
 {
-    [SerializeField]
-    private PitcherInfoData pitcherInfo;
+    [field : SerializeField]
+    public PitcherInfoData PitcherInfo { get; private set; }
 
     private Animator pitcherAnimator;
 
@@ -21,7 +21,6 @@ public class PitcherController : MonoBehaviour
     public GameObject currentBall { get; private set; }
 
     private Sequence ballSequence;
-    public Transform ballParent;
 
     private void Awake()
     {
@@ -57,11 +56,11 @@ public class PitcherController : MonoBehaviour
         currentBall.transform.rotation = Quaternion.identity;
 
         Vector3 ballPos = new Vector3(
-            Random.Range(pitcherInfo.minPosX, pitcherInfo.maxPosX),
+            Random.Range(PitcherInfo.minPosX, PitcherInfo.maxPosX),
             1.67f, 63f);
 
         ballSequence = DOTween.Sequence();
-        ballSequence.Append(currentBall.transform.DOMove(ballPos, pitcherInfo.ballArrivalT).OnComplete(() => 
+        ballSequence.Append(currentBall.transform.DOMove(ballPos, PitcherInfo.ballArrivalT).OnComplete(() => 
         {
             float cnt = UIManager.Instance.AddOutCount();
             if (cnt < 10)
@@ -76,7 +75,7 @@ public class PitcherController : MonoBehaviour
 
     private IEnumerator HideBall()
     {
-        yield return new WaitForSeconds(pitcherInfo.hideBall);
+        yield return new WaitForSeconds(PitcherInfo.hideBall);
         PoolManager.Instance.Despawn(currentBall);
     }
 

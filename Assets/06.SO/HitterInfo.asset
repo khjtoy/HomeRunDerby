@@ -16,9 +16,9 @@ MonoBehaviour:
   minHitValue: 60.7
   maxHitValue: 62.4
   hittingRotY: 60
-  minSwingForce: 1000
+  minSwingForce: 800
   maxStandardSwingForce: 2000
   addswingForce: 3500
-  minheight: 3
-  maxStandardHeight: 15
-  addHeight: 7
+  minheight: 1
+  maxStandardHeight: 13
+  addHeight: 9
