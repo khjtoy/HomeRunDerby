@@ -1994,6 +1994,37 @@ Transform:
   m_Father: {fileID: 4111780740686599941}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7285578983007391013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7477946944668923066}
+  m_Layer: 7
+  m_Name: BallPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7477946944668923066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7285578983007391013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.025, y: 0.085, z: 0.014}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2965394591665771138}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7319259670986799468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,6 +2035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7987392637348013014}
   - component: {fileID: 4051207339188894124}
+  - component: {fileID: 6370676819152199689}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -2042,13 +2074,25 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 830b1ae483de51c4aac8893e620a6cbe, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &6370676819152199689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319259670986799468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b90dd87c3405e046b706fe16dddce78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7374453801054591543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,7 +2169,7 @@ GameObject:
   - component: {fileID: 7589218712199693830}
   - component: {fileID: 8361158256986022672}
   - component: {fileID: 3427705551544184456}
-  - component: {fileID: 3965958526858208476}
+  - component: {fileID: 1355668917893665672}
   m_Layer: 7
   m_Name: BOT_D
   m_TagString: Untagged
@@ -2162,6 +2206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <DefenderInfo>k__BackingField: {fileID: 11400000, guid: dde1851b9d464df48b35cb368327e710, type: 2}
+  <BallPos>k__BackingField: {fileID: 7477946944668923066}
+  <Glove>k__BackingField: {fileID: 2965394591665771138}
 --- !u!136 &3427705551544184456
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2173,10 +2219,10 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 3.5
+  m_Height: 3.6005907
   m_Direction: 1
-  m_Center: {x: 0, y: 1.75, z: 0}
---- !u!54 &3965958526858208476
+  m_Center: {x: 0, y: 1.6997046, z: 0}
+--- !u!54 &1355668917893665672
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
     
 public class UIManager : MonoSingleton<UIManager>
 {
@@ -20,6 +21,8 @@ public class UIManager : MonoSingleton<UIManager>
     private TextMeshProUGUI rankText;
     [SerializeField]
     private TextMeshProUGUI resultHRText;
+    [SerializeField]
+    private TextMeshProUGUI judgmentText;
 
     private int m_HRCount = 0;
     private int m_outCount = 0;
@@ -56,6 +59,15 @@ public class UIManager : MonoSingleton<UIManager>
         resultPanel.gameObject.SetActive(true);
         rankText.text = "A";
         resultHRText.text = homerunText.text;
+    }
+
+    public void Judgment()
+    {
+        judgmentText.gameObject.SetActive(true);
+
+        judgmentText.transform.rotation = Quaternion.Euler(0f, -80f, 0f);
+
+        judgmentText.transform.DORotate(Vector3.zero, 0.6f);
     }
 
     public void RestartGame()

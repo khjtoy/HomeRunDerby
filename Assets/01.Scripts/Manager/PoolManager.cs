@@ -86,6 +86,18 @@ public class PoolManager : MonoSingleton<PoolManager>
         target.SetActive(false);
     }
 
+    public void Despawn(GameObject target, float time)
+    {
+        StartCoroutine(TimerDespawn(target, time));
+    }
+
+    private IEnumerator TimerDespawn(GameObject target, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        target.SetActive(false);
+    }
+
     public void AllDespawn(int index)
     {
         foreach (GameObject pooledObj in pooledObjectsList[index])

@@ -24,4 +24,9 @@ public class StateMachine
     {
         currentState?.DrawGizmos();
     }
+
+    public void OnAnimationEnterEvent()
+    {
+        currentState?.OnAnimationEnterEvent();
+    }
 }

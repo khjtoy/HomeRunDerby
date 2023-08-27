@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f8ae25d41e52414cbdf988ae04aedb7, type: 3}
   m_Name: DefenderInfo
   m_EditorClassIdentifier: 
-  catchDist: 5
-  ChaseSpeed: 10
+  catchDist: 1.7
+  ChaseSpeed: 8

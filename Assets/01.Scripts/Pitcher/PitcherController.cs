@@ -94,11 +94,11 @@ public class PitcherController : MonoBehaviour
 
     private IEnumerator WaitPitching()
     {
-        CameraManager.Instance.SwitchBallCam(false);
+        CameraManager.Instance.SetOriginCam();
 
         UIManager.Instance.ActiveStrikeZone(true);
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
 
         ThrowBall();
     }

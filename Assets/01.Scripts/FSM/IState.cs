@@ -6,4 +6,5 @@ public interface IState
     public void Update();
     public void Exit();
     public void DrawGizmos();
+    public void OnAnimationEnterEvent();
 }

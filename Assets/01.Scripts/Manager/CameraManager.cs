@@ -7,32 +7,33 @@ public class CameraManager : MonoSingleton<CameraManager>
 {
     [SerializeField]
     private CinemachineVirtualCamera mainCam;
-    [SerializeField]
-    private CinemachineVirtualCamera trackBallCam;
+
+    private Vector3 originPos;
+    private Quaternion originRot;
 
     protected override void Init()
-    { 
-        // DontDestroyOnLoad Cancel
+    {
+        // Don't Destoryed
     }
 
-    public void FollowBall(Transform ballTrans)
+    private void Start()
     {
-        trackBallCam.LookAt = ballTrans;
-        trackBallCam.Follow = ballTrans;
-        SwitchBallCam(true);
+        originPos = mainCam.transform.position;
+        originRot = mainCam.transform.rotation;
     }
 
-    public void SwitchBallCam(bool SetTrack)
+    public void FollowBall(Transform ball)
     {
-        if(SetTrack)
-        {
-            trackBallCam.Priority = 1;
-            mainCam.Priority = 0;
-        }
-        else
-        {
-            mainCam.Priority = 1;
-            trackBallCam.Priority = 0;
-        }
+        mainCam.Follow = ball;
+        mainCam.LookAt = ball;
+    }
+
+    public void SetOriginCam()
+    {
+        mainCam.Follow = null;
+        mainCam.LookAt = null;
+
+        mainCam.transform.position = originPos;
+        mainCam.transform.rotation = originRot;
     }
 }

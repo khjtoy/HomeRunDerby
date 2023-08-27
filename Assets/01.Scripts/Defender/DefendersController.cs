@@ -6,6 +6,8 @@ public class DefendersController : MonoBehaviour
 {
     private List<DefenderController> defenders;
 
+    private DefenderController currentDefender;
+
     private void Awake()
     {
         defenders = new List<DefenderController>();
@@ -16,6 +18,7 @@ public class DefendersController : MonoBehaviour
     private void Start()
     {
         EventManager.StartListening("StartDefence", FindCatchDenfender);
+        EventManager.StartListening("RePitching", ResetDefender);
     }
 
     private void AddDefender()
@@ -42,18 +45,32 @@ public class DefendersController : MonoBehaviour
             }
         }
 
-        DefenderStateMachine stateMachine = selectDefender.DefenderStateMachine;
+        currentDefender = selectDefender;
+
+        currentDefender.SavePredictPos(predictPos);
+        DefenderStateMachine stateMachine = currentDefender.DefenderStateMachine;
         stateMachine.ChangeState(stateMachine.ChaseState);
-        Debug.Log(selectDefender.name);
+    }
+
+    private void ResetDefender(EventParam eventParam)
+    {
+        if (currentDefender != null)
+        {
+            DefenderStateMachine stateMachine = currentDefender.DefenderStateMachine;
+            stateMachine.ChangeState(stateMachine.IdlingState);
+            currentDefender = null;
+        }
     }
 
     private void OnApplicationQuit()
     {
         EventManager.StopListening("StartDefence", FindCatchDenfender);
+        EventManager.StopListening("RePitching", ResetDefender);
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening("StartDefence", FindCatchDenfender);
+        EventManager.StopListening("RePitching", ResetDefender);
     }
 }

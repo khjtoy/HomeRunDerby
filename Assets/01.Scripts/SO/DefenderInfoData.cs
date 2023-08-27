@@ -4,8 +4,14 @@ using UnityEngine;
 public class DefenderInfoData : ScriptableObject
 {
     [Header("Catch 가능 범위")]
-    [Range(1f, 10f)]
-    public float catchDist = 5f;
+    public float catchDist = 1f;
+    public float flyCatchDist = 30f;
+    [Header("Ground 캐치 설정 범위")]
+    public float speedPercent = 0.08f;
+    public float groundSpeed = 2f;
+    [Header("fly 캐치 설정 범위")]
+    public float offsetX = 4f;
+    public float flySpeed = 15f;
     [Header("Chase 상태 속도")]
-    public float ChaseSpeed = 10f;
+    public float chaseSpeed = 10f;
 }

@@ -31,6 +31,11 @@ public class DefenderBaseState : IState
 
     }
 
+    public virtual void OnAnimationEnterEvent()
+    {
+
+    }
+
     protected void StartAnimation(int animationHash)
     {
         stateMachine.Defender.Animator.SetBool(animationHash, true);
@@ -41,6 +46,11 @@ public class DefenderBaseState : IState
         stateMachine.Defender.Animator.SetBool(animationHash, false);
     }
 
+    protected void ChangeSpeedAnimation(float speed)
+    {
+        stateMachine.Defender.Animator.speed = speed;
+    }
+
     protected void ResetVelocity()
     {
         stateMachine.Defender.Rigidbody.velocity = Vector3.zero;
@@ -49,5 +59,15 @@ public class DefenderBaseState : IState
     protected float GetBallDistance()
     {
         return Define.Pitcher.currentBall.transform.position.DistanceFlat(stateMachine.Defender.transform.position);
+    }
+
+    protected bool IsBallGrounded()
+    {
+        return Define.Pitcher.currentBall.GetComponent<BallController>().Grounded;
+    }
+
+    protected bool Lowball()
+    {
+        return Define.Pitcher.currentBall.transform.position.y <= 2f;
     }
 }
