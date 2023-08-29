@@ -17,11 +17,20 @@ public class BallController : MonoBehaviour
     private float maxSimulationTime;
     private EventParam ballInfoParam;
 
+    private float saveDirectionY;
+
     public bool Grounded { get; private set; }
 
     private void OnEnable()
     {
         Grounded = false;
+        oneCheck = false;
+        environmentCheck = false;
+
+        StopCoroutine("StopBall");
+
+        if (BallRigidbody != null)
+            BallRigidbody.velocity = Vector3.zero;
     }
 
     private void Awake()
@@ -53,7 +62,7 @@ public class BallController : MonoBehaviour
         {
             environmentCheck = true;
             UIManager.Instance.AddHRCount();
-            UIManager.Instance.Judgment();
+            UIManager.Instance.Judgment(ResultState.HR);
             AudioManager.Instance.Stop("CrowdNormal");
             AudioManager.Instance.Play("CrowdHit");
             Invoke("ResultBall", 3f);
@@ -62,16 +71,28 @@ public class BallController : MonoBehaviour
         {
             environmentCheck = true;
             Grounded = true;
-            Debug.Log(BallRigidbody.position);
 
-            float cnt = UIManager.Instance.AddOutCount();
-            if (cnt < 10)
+            if(Mathf.Abs(saveDirectionY) >= 45f)
             {
-                // Invoke("ResultBall", 1.5f);
+                Foul();
             }
-            else
-                UIManager.Instance.Result();
         }
+        else if(collision.gameObject.CompareTag("Foul"))
+        {
+            environmentCheck = true;
+            Foul();
+        }
+    }
+
+    private void Foul()
+    {
+        UIManager.Instance.Judgment(ResultState.Foul);
+
+        int cnt = UIManager.Instance.AddOutCount();
+        if (cnt < 10)
+            Invoke("ResultBall", 2f);
+        else
+            UIManager.Instance.Result();
     }
 
     private void ResultBall()
@@ -81,7 +102,7 @@ public class BallController : MonoBehaviour
 
     private void CheckBat()
     {
-        Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
+        // Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 0.8f, layer))
@@ -103,13 +124,13 @@ public class BallController : MonoBehaviour
     {
         float swingForce = CalculateSwingForce();
         float heightForce = CalculateHeightForce();
-        float directionY = DirectionY();
-        Vector3 hitDirection = Quaternion.Euler(0f, DirectionY(), 0f) * hitter.transform.forward.normalized;
+        saveDirectionY = DirectionY();
+        Vector3 hitDirection = Quaternion.Euler(0f, saveDirectionY, 0f) * hitter.transform.forward.normalized;
         BallRigidbody.useGravity = true;
         BallRigidbody.AddForce(hitDirection * swingForce);
         BallRigidbody.AddForce(Vector3.up * heightForce, ForceMode.Impulse);
 
-        Debug.Log($"SwingForce:{swingForce}, heightForce:{heightForce}, directionY:{directionY}");
+        Debug.Log($"SwingForce:{swingForce}, heightForce:{heightForce}, directionY:{saveDirectionY}");
 
         // Test
         /*        float swingForce = 3500f;
@@ -119,14 +140,10 @@ public class BallController : MonoBehaviour
                 BallRigidbody.AddForce(hitDirection * swingForce);
                 BallRigidbody.AddForce(Vector3.up * heightForce, ForceMode.Impulse);*/
 
-        StartCoroutine(StopBall(BallRigidbody));
-
         // 예측된 최종 위치를 계산하여 출력
         Vector3 initialPosition = BallRigidbody.position;
         Vector3 initialVelocity = hitDirection * swingForce + Vector3.up * heightForce;
         ballInfoParam.vectorParam = PredictBallPosition(initialPosition, initialVelocity);
-
-        Debug.Log(ballInfoParam.vectorParam);
 
         EventManager.TriggerEvent("StartDefence", ballInfoParam);
     }
@@ -149,7 +166,6 @@ public class BallController : MonoBehaviour
             }
 
             position += velocity * timeStep;
-            Debug.Log($"time:{t}, position:{position}");
         }
         return position;
     }
@@ -205,20 +221,6 @@ public class BallController : MonoBehaviour
             hitter.HitterInfo.maxStandardHeight + addHeight);
 
         return heightForce;
-    }
-
-    IEnumerator StopBall(Rigidbody ballRigidbody)
-    {
-        yield return new WaitForSeconds(1f);
-
-        // 일정 시간 후에 속도를 감소시켜 공을 멈추도록 함.
-        if (ballRigidbody.gameObject != null)
-        {
-            ballRigidbody.velocity *= 0.5f;
-
-            if (ballRigidbody.velocity.magnitude > 0)
-                StartCoroutine(StopBall(ballRigidbody));
-        }
     }
 
     private void HomeRunEvent()

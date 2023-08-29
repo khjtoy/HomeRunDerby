@@ -5,7 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-    
+
+public enum ResultState { StrikeOut, Ground, Foul, HR };
 public class UIManager : MonoSingleton<UIManager>
 {
     [SerializeField]
@@ -23,6 +24,15 @@ public class UIManager : MonoSingleton<UIManager>
     private TextMeshProUGUI resultHRText;
     [SerializeField]
     private TextMeshProUGUI judgmentText;
+    [Header("Result Color")]
+    [SerializeField]
+    private Color outColor;
+    [SerializeField]
+    private Color foulColor;
+    [SerializeField]
+    private Color homeRunColor;
+    [SerializeField]
+    private Color groundBallColor;
 
     private int m_HRCount = 0;
     private int m_outCount = 0;
@@ -35,6 +45,7 @@ public class UIManager : MonoSingleton<UIManager>
     private void Start()
     {
         resultPanel.gameObject.SetActive(false);
+        judgmentText.gameObject.SetActive(false);
     }
 
     public void AddHRCount()
@@ -54,6 +65,11 @@ public class UIManager : MonoSingleton<UIManager>
         StrikeZone.gameObject.SetActive(setActive);
     }
 
+    public void DisableJudmentText()
+    {
+        judgmentText.gameObject.SetActive(false);
+    }
+
     public void Result()
     {
         resultPanel.gameObject.SetActive(true);
@@ -61,13 +77,33 @@ public class UIManager : MonoSingleton<UIManager>
         resultHRText.text = homerunText.text;
     }
 
-    public void Judgment()
+    public void Judgment(ResultState result)
     {
+        switch (result)
+        {
+            case ResultState.StrikeOut:
+                judgmentText.text = "Strike";
+                judgmentText.color = outColor;
+                judgmentText.DOFade(1, 0.2f);
+                break;
+            case ResultState.Ground:
+                judgmentText.text = "Ground Ball";
+                judgmentText.color = groundBallColor;
+                judgmentText.DOFade(1, 0.4f);
+                break;
+            case ResultState.Foul:
+                judgmentText.text = "Foul";
+                judgmentText.color = foulColor;
+                judgmentText.DOFade(1, 0.4f);
+                break;
+            case ResultState.HR:
+                judgmentText.text = "HomeRun!!";
+                judgmentText.color = homeRunColor;
+                judgmentText.transform.rotation = Quaternion.Euler(0f, -80f, 0f);
+                judgmentText.transform.DORotate(Vector3.zero, 0.6f);
+                break;
+        }
         judgmentText.gameObject.SetActive(true);
-
-        judgmentText.transform.rotation = Quaternion.Euler(0f, -80f, 0f);
-
-        judgmentText.transform.DORotate(Vector3.zero, 0.6f);
     }
 
     public void RestartGame()

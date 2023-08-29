@@ -73,7 +73,7 @@ public class DefenderObserveState : DefenderBaseState
     }
     private void Catch()
     {
-        if (Vector3.Distance(stateMachine.Defender.Glove.position, Define.Pitcher.currentBall.transform.position) <= 1f && Define.Pitcher.currentBall.transform.position.y >= 4f)
+        if (Vector3.Distance(stateMachine.Defender.Glove.position, Define.Pitcher.currentBall.transform.position) <= 1f)
         {
             Debug.Log(Define.Pitcher.currentBall.transform.position.y);
 
@@ -81,11 +81,14 @@ public class DefenderObserveState : DefenderBaseState
             StopAnimation(flyReadyHash);
 
             ResetVelocity();
+
             Define.Pitcher.currentBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
             Define.Pitcher.currentBall.GetComponent<Rigidbody>().isKinematic = true;
             Define.Pitcher.currentBall.transform.DOMove(stateMachine.Defender.BallPos.position, 0.3f);
             Define.Pitcher.currentBall.transform.parent = stateMachine.Defender.BallPos.transform;
             follow = false;
+
+            Out();
 
         }
     }

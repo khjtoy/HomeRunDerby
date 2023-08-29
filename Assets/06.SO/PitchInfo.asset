@@ -15,6 +15,6 @@ MonoBehaviour:
   ballArrivalT: 0.7
   minPosX: 0
   maxPosX: 0.55
-  hideBall: 2
+  hideBall: 1.5
   timeStep: 0.001
   maxSimulationTime: 0.031

@@ -62,11 +62,11 @@ public class PitcherController : MonoBehaviour
         ballSequence = DOTween.Sequence();
         ballSequence.Append(currentBall.transform.DOMove(ballPos, PitcherInfo.ballArrivalT).OnComplete(() => 
         {
+            UIManager.Instance.Judgment(ResultState.StrikeOut);
             float cnt = UIManager.Instance.AddOutCount();
             if (cnt < 10)
             {
                 StartCoroutine("HideBall");
-                EventManager.TriggerEvent("RePitching", new EventParam());
             }
             else
                 UIManager.Instance.Result();
@@ -77,6 +77,7 @@ public class PitcherController : MonoBehaviour
     {
         yield return new WaitForSeconds(PitcherInfo.hideBall);
         PoolManager.Instance.Despawn(currentBall);
+        EventManager.TriggerEvent("RePitching", new EventParam());
     }
 
     public void KillBallSequence()
@@ -97,6 +98,7 @@ public class PitcherController : MonoBehaviour
         CameraManager.Instance.SetOriginCam();
 
         UIManager.Instance.ActiveStrikeZone(true);
+        UIManager.Instance.DisableJudmentText();
 
         yield return new WaitForSeconds(2f);
 

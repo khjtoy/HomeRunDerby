@@ -61,5 +61,7 @@ public class DefenderCatchState : DefenderBaseState
         moving = false;
 
         PoolManager.Instance.Despawn(Define.Pitcher.currentBall.gameObject);
+
+        Out();
     }
 }

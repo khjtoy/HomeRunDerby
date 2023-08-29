@@ -8,6 +8,9 @@ public class DefendersController : MonoBehaviour
 
     private DefenderController currentDefender;
 
+    private Vector3 selectDefendersPos;
+    private Quaternion selectDefendersRot;
+
     private void Awake()
     {
         defenders = new List<DefenderController>();
@@ -47,6 +50,8 @@ public class DefendersController : MonoBehaviour
 
         currentDefender = selectDefender;
 
+        selectDefendersPos = currentDefender.transform.position;
+        selectDefendersRot = currentDefender.transform.rotation;
         currentDefender.SavePredictPos(predictPos);
         DefenderStateMachine stateMachine = currentDefender.DefenderStateMachine;
         stateMachine.ChangeState(stateMachine.ChaseState);
@@ -58,6 +63,8 @@ public class DefendersController : MonoBehaviour
         {
             DefenderStateMachine stateMachine = currentDefender.DefenderStateMachine;
             stateMachine.ChangeState(stateMachine.IdlingState);
+            currentDefender.transform.position = selectDefendersPos;
+            currentDefender.transform.rotation = selectDefendersRot;
             currentDefender = null;
         }
     }

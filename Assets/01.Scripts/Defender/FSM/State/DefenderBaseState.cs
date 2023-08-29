@@ -68,6 +68,26 @@ public class DefenderBaseState : IState
 
     protected bool Lowball()
     {
-        return Define.Pitcher.currentBall.transform.position.y <= 2f;
+        return Define.Pitcher.currentBall.transform.position.y <= 3f;
+    }
+
+    protected void Out()
+    {
+        float cnt = UIManager.Instance.AddOutCount();
+        if (cnt < 10)
+        {
+            stateMachine.Defender.StartCoroutine(ResultBall());
+        }
+        else
+            UIManager.Instance.Result();
+    }
+
+    private IEnumerator ResultBall()
+    {
+        UIManager.Instance.Judgment(ResultState.Ground);
+
+        yield return new WaitForSeconds(2f);
+
+        EventManager.TriggerEvent("RePitching", new EventParam());
     }
 }
