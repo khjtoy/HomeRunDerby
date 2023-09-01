@@ -19,6 +19,7 @@ public class PitcherController : MonoBehaviour
     private Transform ballSpawnPos;
 
     public GameObject currentBall { get; private set; }
+    public float BallPosY { get; private set; }
 
     private Sequence ballSequence;
 
@@ -55,14 +56,23 @@ public class PitcherController : MonoBehaviour
         currentBall.transform.parent = PoolManager.Instance.transform;
         currentBall.transform.rotation = Quaternion.identity;
 
-        Vector3 ballPos = new Vector3(
-            Random.Range(PitcherInfo.minPosX, PitcherInfo.maxPosX),
-            1.67f, 63f);
+        float posX = Random.Range(PitcherInfo.minPosX, PitcherInfo.maxPosX);
+        BallPosY = Random.Range(PitcherInfo.minPosY, PitcherInfo.maxPosY);
+
+
+        Vector3 ballPos = new Vector3(0.25f, BallPosY, 63f);
+
+
+        Debug.Log(ballPos);
+
+        UIManager.Instance.ActiveBallCursor(true, ballPos);
 
         ballSequence = DOTween.Sequence();
         ballSequence.Append(currentBall.transform.DOMove(ballPos, PitcherInfo.ballArrivalT).OnComplete(() => 
         {
             UIManager.Instance.Judgment(ResultState.StrikeOut);
+            UIManager.Instance.ActiveCursor(false);
+            UIManager.Instance.ActiveBallCursor(false);
             float cnt = UIManager.Instance.AddOutCount();
             if (cnt < 10)
             {
@@ -98,6 +108,7 @@ public class PitcherController : MonoBehaviour
         CameraManager.Instance.SetOriginCam();
 
         UIManager.Instance.ActiveStrikeZone(true);
+        UIManager.Instance.ActiveCursor(true);
         UIManager.Instance.DisableJudmentText();
 
         yield return new WaitForSeconds(2f);

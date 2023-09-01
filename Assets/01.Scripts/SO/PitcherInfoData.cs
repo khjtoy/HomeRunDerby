@@ -9,6 +9,8 @@ public class PitcherInfoData : ScriptableObject
     [Header("공의 랜덤 위치")]
     public float minPosX = 0f;
     public float maxPosX = 0.55f;
+    public float minPosY = 1f;
+    public float maxPosY = 2f;
     [Header("공 기타 설정")]
     public float hideBall = 2f;
     [Header("공 낙하지점 위치예측 변수")]

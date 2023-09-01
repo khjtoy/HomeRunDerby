@@ -105,12 +105,16 @@ public class BallController : MonoBehaviour
         // Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.8f, layer))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 1f, layer))
         {
             oneCheck = true;
             collisionPointZ = transform.position.z;
 
+            Debug.Log(collisionPointZ);
+
             Define.Pitcher.KillBallSequence();
+            UIManager.Instance.ActiveCursor(false);
+            UIManager.Instance.ActiveBallCursor(false);
 
             AudioManager.Instance.Play("Hit");
 

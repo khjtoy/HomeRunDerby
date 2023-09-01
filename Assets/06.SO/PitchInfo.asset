@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e57f5478d9fc2f40af2993e647d3d6f, type: 3}
   m_Name: PitchInfo
   m_EditorClassIdentifier: 
-  ballArrivalT: 0.7
+  ballArrivalT: 0.8
   minPosX: 0
   maxPosX: 0.55
+  minPosY: 1.3
+  maxPosY: 2
   hideBall: 1.5
   timeStep: 0.001
   maxSimulationTime: 0.031

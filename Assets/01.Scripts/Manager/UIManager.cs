@@ -33,6 +33,11 @@ public class UIManager : MonoSingleton<UIManager>
     private Color homeRunColor;
     [SerializeField]
     private Color groundBallColor;
+    [Header("Meet")]
+    [SerializeField]
+    private Image cursorImage;
+    [SerializeField]
+    private Image ballImage;
 
     private int m_HRCount = 0;
     private int m_outCount = 0;
@@ -46,6 +51,7 @@ public class UIManager : MonoSingleton<UIManager>
     {
         resultPanel.gameObject.SetActive(false);
         judgmentText.gameObject.SetActive(false);
+        ballImage.gameObject.SetActive(false);
     }
 
     public void AddHRCount()
@@ -104,6 +110,20 @@ public class UIManager : MonoSingleton<UIManager>
                 break;
         }
         judgmentText.gameObject.SetActive(true);
+    }
+
+    public void ActiveCursor(bool visible)
+    {
+        cursorImage.gameObject.SetActive(visible);
+    }
+
+    public void ActiveBallCursor(bool visible, Vector3 pos = new Vector3())
+    {
+        Vector3 setPos = pos.SetZ(ballImage.transform.position.z);
+        if (visible)
+            ballImage.transform.position = setPos;
+
+        ballImage.gameObject.SetActive(visible);
     }
 
     public void RestartGame()
