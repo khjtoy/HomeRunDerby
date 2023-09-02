@@ -40,6 +40,7 @@ public class PitcherController : MonoBehaviour
     private void ThrowBall()
     {
         UIManager.Instance.ActiveStrikeZone(false);
+        UIManager.Instance.ActiveMode(false);
 
         currentBall = PoolManager.Instance.GetPooledObject((int)Define.PooledObject.Ball);
         currentBall.transform.position = ballSpawnPos.position;
@@ -108,6 +109,7 @@ public class PitcherController : MonoBehaviour
         CameraManager.Instance.SetOriginCam();
 
         UIManager.Instance.ActiveStrikeZone(true);
+        UIManager.Instance.ActiveMode(true);
         UIManager.Instance.ActiveCursor(true);
         UIManager.Instance.DisableJudmentText();
 

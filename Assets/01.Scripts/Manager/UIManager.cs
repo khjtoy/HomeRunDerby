@@ -15,6 +15,7 @@ public class UIManager : MonoSingleton<UIManager>
     private TextMeshProUGUI outText;
     [SerializeField]
     private Image StrikeZone;
+
     [Header("Result Panel")]
     [SerializeField]
     private Image resultPanel;
@@ -24,6 +25,7 @@ public class UIManager : MonoSingleton<UIManager>
     private TextMeshProUGUI resultHRText;
     [SerializeField]
     private TextMeshProUGUI judgmentText;
+
     [Header("Result Color")]
     [SerializeField]
     private Color outColor;
@@ -33,11 +35,18 @@ public class UIManager : MonoSingleton<UIManager>
     private Color homeRunColor;
     [SerializeField]
     private Color groundBallColor;
+
     [Header("Meet")]
     [SerializeField]
     private Image cursorImage;
     [SerializeField]
     private Image ballImage;
+
+    [Header("Mode")]
+    [SerializeField]
+    private Image modeImage;
+    [SerializeField]
+    private TextMeshProUGUI modeText;
 
     private int m_HRCount = 0;
     private int m_outCount = 0;
@@ -124,6 +133,25 @@ public class UIManager : MonoSingleton<UIManager>
             ballImage.transform.position = setPos;
 
         ballImage.gameObject.SetActive(visible);
+    }
+
+    public void ActiveMode(bool visible)
+    {
+        modeImage.gameObject.SetActive(visible);
+    }
+
+    public void ChangeModeUI()
+    {
+        GameManager.Instance.ChangeAutoMode();
+
+        if(GameManager.Instance.AutoMode)
+        {
+            modeText.text = "Auto";
+        }
+        else
+        {
+            modeText.text = "Manual";
+        }
     }
 
     public void RestartGame()

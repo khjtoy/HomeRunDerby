@@ -18,12 +18,10 @@ public class BatCursor : MonoBehaviour
     private float downOffset = 17;
     [SerializeField]
     private Transform bat;
+    [SerializeField]
+    private Joystick joystick;
 
     private float basePosY;
-    private Quaternion baseRotate;
-
-    [SerializeField]
-    private bool autoMode = false;
 
     private void Awake()
     {
@@ -33,12 +31,11 @@ public class BatCursor : MonoBehaviour
     private void Start()
     {
         basePosY = cursorTransform.position.y;
-        baseRotate = cursorTransform.rotation;
     }
 
     private void Update()
     {
-        if (autoMode)
+        if (GameManager.Instance.AutoMode)
             AutoMove();
         else
             CursorMove();
@@ -80,7 +77,9 @@ public class BatCursor : MonoBehaviour
 
     private void CursorMove()
     {
-        float v = Input.GetAxisRaw("Vertical");
+        // float v = Input.GetAxisRaw("Vertical");
+
+        float v = joystick.Vertical;
 
         Vector3 pos = cursorTransform.position;
 
