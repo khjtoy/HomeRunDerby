@@ -98,6 +98,8 @@ public class PitcherController : MonoBehaviour
 
     private void RePitching(EventParam eventParam)
     {
+        EventManager.TriggerEvent("EndDefence", new EventParam());
+
         AudioManager.Instance.Stop("CrowdHit");
         AudioManager.Instance.Play("CrowdNormal");
 

@@ -1430,7 +1430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &895346943
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1515,6 +1515,7 @@ MonoBehaviour:
   ballImage: {fileID: 2100756351}
   modeImage: {fileID: 350633686}
   modeText: {fileID: 1205781810}
+  joystick: {fileID: 895346942}
 --- !u!4 &896334349
 Transform:
   m_ObjectHideFlags: 0
@@ -1750,7 +1751,7 @@ GameObject:
   - component: {fileID: 1056390968}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Foul
+  m_TagString: Over
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

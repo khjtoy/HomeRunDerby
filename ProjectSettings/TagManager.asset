@@ -9,6 +9,7 @@ TagManager:
   - Bat
   - HomeRunZone
   - Foul
+  - Over
   layers:
   - Default
   - TransparentFX

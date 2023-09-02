@@ -25,6 +25,7 @@ public class DefenderObserveState : DefenderBaseState
     {
         base.Exit();
         StopAnimation(flyReadyHash);
+        StopAnimation(flyCatchHash);
     }
 
     public override void Update()

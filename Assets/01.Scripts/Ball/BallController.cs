@@ -61,18 +61,14 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("HomeRunZone"))
         {
             environmentCheck = true;
-            UIManager.Instance.AddHRCount();
-            UIManager.Instance.Judgment(ResultState.HR);
-            AudioManager.Instance.Stop("CrowdNormal");
-            AudioManager.Instance.Play("CrowdHit");
-            Invoke("ResultBall", 3f);
+            HomeRun();
         }
         else if (collision.gameObject.CompareTag("Environment"))
         {
             environmentCheck = true;
             Grounded = true;
 
-            if(Mathf.Abs(saveDirectionY) >= 45f)
+            if(IsFoulAngle())
             {
                 Foul();
             }
@@ -82,10 +78,22 @@ public class BallController : MonoBehaviour
             environmentCheck = true;
             Foul();
         }
+        else if(collision.gameObject.CompareTag("Over"))
+        {
+            environmentCheck = true;
+            if (IsFoulAngle()) Foul();
+            else HomeRun();
+        }
+    }
+
+    private bool IsFoulAngle()
+    {
+        return (Mathf.Abs(saveDirectionY) >= 45f);
     }
 
     private void Foul()
     {
+        EventManager.TriggerEvent("EndDefence", new EventParam());
         UIManager.Instance.Judgment(ResultState.Foul);
 
         int cnt = UIManager.Instance.AddOutCount();
@@ -93,6 +101,16 @@ public class BallController : MonoBehaviour
             Invoke("ResultBall", 2f);
         else
             UIManager.Instance.Result();
+    }
+
+    private void HomeRun()
+    {
+        EventManager.TriggerEvent("EndDefence", new EventParam());
+        UIManager.Instance.AddHRCount();
+        UIManager.Instance.Judgment(ResultState.HR);
+        AudioManager.Instance.Stop("CrowdNormal");
+        AudioManager.Instance.Play("CrowdHit");
+        Invoke("ResultBall", 3f);
     }
 
     private void ResultBall()

@@ -21,7 +21,7 @@ public class DefendersController : MonoBehaviour
     private void Start()
     {
         EventManager.StartListening("StartDefence", FindCatchDenfender);
-        EventManager.StartListening("RePitching", ResetDefender);
+        EventManager.StartListening("EndDefence", ResetDefender);
     }
 
     private void AddDefender()
@@ -72,12 +72,12 @@ public class DefendersController : MonoBehaviour
     private void OnApplicationQuit()
     {
         EventManager.StopListening("StartDefence", FindCatchDenfender);
-        EventManager.StopListening("RePitching", ResetDefender);
+        EventManager.StopListening("EndDefence", ResetDefender);
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening("StartDefence", FindCatchDenfender);
-        EventManager.StopListening("RePitching", ResetDefender);
+        EventManager.StopListening("EndDefence", ResetDefender);
     }
 }

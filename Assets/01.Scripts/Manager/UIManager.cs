@@ -47,6 +47,8 @@ public class UIManager : MonoSingleton<UIManager>
     private Image modeImage;
     [SerializeField]
     private TextMeshProUGUI modeText;
+    [SerializeField]
+    private GameObject joystick;
 
     private int m_HRCount = 0;
     private int m_outCount = 0;
@@ -147,10 +149,12 @@ public class UIManager : MonoSingleton<UIManager>
         if(GameManager.Instance.AutoMode)
         {
             modeText.text = "Auto";
+            joystick.SetActive(false);
         }
         else
         {
             modeText.text = "Manual";
+            joystick.SetActive(true);
         }
     }
 
