@@ -6,9 +6,15 @@ public class DefenderBaseState : IState
 {
     protected DefenderStateMachine stateMachine;
 
+    protected Transform defenderTransform;
+    protected DefenderInfoData defenderInfo;
+
     public DefenderBaseState(DefenderStateMachine defenderStateMachine)
     {
         stateMachine = defenderStateMachine;
+
+        defenderTransform = stateMachine.Defender.transform;
+        defenderInfo = stateMachine.Defender.DefenderInfo;
     }
 
     public virtual void Enter()

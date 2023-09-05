@@ -18,7 +18,7 @@ public class DefenderCatchState : DefenderBaseState
 
 
         float magnitude = Define.Pitcher.currentBall.GetComponent<Rigidbody>().velocity.magnitude;
-        float speed = 1f + (stateMachine.Defender.DefenderInfo.speedPercent * magnitude);
+        float speed = 1f + (defenderInfo.speedPercent * magnitude);
 
         StartAnimation(groundCatchHash);
         ChangeSpeedAnimation(speed);
@@ -41,16 +41,16 @@ public class DefenderCatchState : DefenderBaseState
 
     private void FollowBall()
     {
-        Vector3 dir = (Define.Pitcher.currentBall.transform.position - stateMachine.Defender.transform.position).SetY(0).normalized;
+        Vector3 dir = (Define.Pitcher.currentBall.transform.position - defenderTransform.position).SetY(0).normalized;
 
         // 이동 방향 설정
-        stateMachine.Defender.Rigidbody.velocity = dir * stateMachine.Defender.DefenderInfo.groundSpeed;
+        stateMachine.Defender.Rigidbody.velocity = dir * defenderInfo.groundSpeed;
 
         // 회전 설정
         if (dir != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(dir);
-            stateMachine.Defender.transform.rotation = Quaternion.Slerp(stateMachine.Defender.transform.rotation, lookRotation, Time.deltaTime * 5f);
+            defenderTransform.rotation = Quaternion.Slerp(defenderTransform.rotation, lookRotation, Time.deltaTime * 5f);
         }
     }
 

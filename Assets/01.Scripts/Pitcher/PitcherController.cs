@@ -63,9 +63,6 @@ public class PitcherController : MonoBehaviour
 
         Vector3 ballPos = new Vector3(0.25f, BallPosY, 63f);
 
-
-        Debug.Log(ballPos);
-
         UIManager.Instance.ActiveBallCursor(true, ballPos);
 
         ballSequence = DOTween.Sequence();

@@ -9,7 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-       //  Application.targetFrameRate = 60;
+        // Application.targetFrameRate = 60;
     }
 
     public void ChangeAutoMode()

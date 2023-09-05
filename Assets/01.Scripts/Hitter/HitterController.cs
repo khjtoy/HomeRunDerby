@@ -29,9 +29,22 @@ public class HitterController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0))
         {
-            Hitting();
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                {
+                    Hitting();
+                }
+            }
+            else
+            {
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    Hitting();
+                }
+            }
         }
     }
 

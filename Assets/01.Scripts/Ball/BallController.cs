@@ -123,12 +123,10 @@ public class BallController : MonoBehaviour
         // Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 1f, layer))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2.3f, layer))
         {
             oneCheck = true;
             collisionPointZ = transform.position.z;
-
-            Debug.Log(collisionPointZ);
 
             Define.Pitcher.KillBallSequence();
             UIManager.Instance.ActiveCursor(false);
@@ -144,7 +142,7 @@ public class BallController : MonoBehaviour
 
     private void Movement()
     {
-        float swingForce = CalculateSwingForce();
+        float swingForce =  CalculateSwingForce();
         float heightForce = CalculateHeightForce();
         saveDirectionY = DirectionY();
         Vector3 hitDirection = Quaternion.Euler(0f, saveDirectionY, 0f) * hitter.transform.forward.normalized;
@@ -152,7 +150,8 @@ public class BallController : MonoBehaviour
         BallRigidbody.AddForce(hitDirection * swingForce);
         BallRigidbody.AddForce(Vector3.up * heightForce, ForceMode.Impulse);
 
-        Debug.Log($"SwingForce:{swingForce}, heightForce:{heightForce}, directionY:{saveDirectionY}");
+
+        // Debug.Log($"SwingForce:{swingForce}, heightForce:{heightForce}, directionY:{saveDirectionY}");
 
         // Test
         /*        float swingForce = 3500f;
@@ -166,6 +165,7 @@ public class BallController : MonoBehaviour
         Vector3 initialPosition = BallRigidbody.position;
         Vector3 initialVelocity = hitDirection * swingForce + Vector3.up * heightForce;
         ballInfoParam.vectorParam = PredictBallPosition(initialPosition, initialVelocity);
+        Debug.Log(ballInfoParam.vectorParam);
 
         EventManager.TriggerEvent("StartDefence", ballInfoParam);
     }
@@ -198,13 +198,13 @@ public class BallController : MonoBehaviour
         // 밀어치기(Push-hitting)
         if (collisionPointZ > hitter.HitterInfo.hitStandardValue)
         {
-            Debug.Log("밀어치기");
+            // Debug.Log("밀어치기");
             rotY = Random.Range(0f, hitter.HitterInfo.hittingRotY);
         }
         // 당겨치기(Pull-hitting)
         else
         {
-            Debug.Log("당겨치기");
+            // Debug.Log("당겨치기");
             rotY = Random.Range(-hitter.HitterInfo.hittingRotY, 0f);
         }
         return rotY;

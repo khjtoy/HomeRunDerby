@@ -14,4 +14,7 @@ public class DefenderInfoData : ScriptableObject
     public float flySpeed = 15f;
     [Header("Chase 상태 속도")]
     public float chaseSpeed = 10f;
+    [Header("시야각 설정")]
+    public float viewAngle;    //시야각
+    public float viewDistance; //시야거리
 }

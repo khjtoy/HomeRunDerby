@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f8ae25d41e52414cbdf988ae04aedb7, type: 3}
-  m_Name: DefenderInfo
+  m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
+  m_Name: Bot_HTimeline2
   m_EditorClassIdentifier: 
-  catchDist: 1.7
-  flyCatchDist: 30
-  speedPercent: 0.08
-  groundSpeed: 2
-  offsetX: 4
-  flySpeed: 15
-  chaseSpeed: 10
-  viewAngle: 60
-  viewDistance: 5
+  m_Version: 0
+  m_Tracks: []
+  m_FixedDuration: 0
+  m_EditorSettings:
+    m_Framerate: 60
+    m_ScenePreview: 1
+  m_DurationMode: 0
+  m_MarkerTrack: {fileID: 0}
